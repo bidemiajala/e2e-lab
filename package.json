@@ -1,39 +1,22 @@
 {
-  "name": "cy-ui-framework",
+  "name": "e2e-lab",
   "version": "1.0.0",
-  "description": "Testing a sample login function with Cypress.io",
   "main": "index.js",
   "scripts": {
-    "clean:reports": "rm -R -f cypress/reports && mkdir cypress/reports && mkdir cypress/reports/mochareports",
-    "pretest": "npm run clean:reports",
-    "scripts": "cypress run",
-    "combine-reports": "mochawesome-merge --reportDir cypress/reports/mocha > cypress/reports/mochareports/report.json",
-    "generate-report": "marge cypress/reports/mochareports/report.json -f report -o cypress/reports/mochareports",
-    "posttest": "npm run combine-reports && npm run generate-report",
-    "test": "npm run scripts || npm run posttest"
+    "test": "test"
   },
-  "author": "Bidemi Ajala",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bidemiajala/cy-ui-framework.git"
+  },
+  "author": "Demi Ajala",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bidemiajala/cy-ui-framework/issues"
+  },
+  "homepage": "https://github.com/bidemiajala/cy-ui-framework#readme",
+  "description": "",
   "devDependencies": {
-    "cypress": "^5.0.0",
-    "cypress-cucumber-preprocessor": "^2.3.0",
-    "cypress-multi-reporters": "^1.4.0",
-    "eslint": "^7.7.0",
-    "eslint-plugin-cypress": "^2.11.1",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jsx-a11y": "^6.3.1",
-    "eslint-plugin-react": "^7.20.6",
-    "eslint-plugin-react-hooks": "^4.1.0",
-    "faker": "^4.1.0",
-    "mocha": "^7.2.0",
-    "mochawesome": "^6.1.1",
-    "mochawesome-merge": "^4.1.0",
-    "mochawesome-report-generator": "^5.1.0"
-  },
-  "cypress-cucumber-preprocessor": {
-    "nonGlobalStepDefinitions": true
-  },
-  "dependencies": {
-    "eslint-config-airbnb": "^18.2.0"
+    "cypress": "^14.4.0"
   }
 }

@@ -1,8 +1,0 @@
-cypress.env.json
-node_modules
-videos
-screenshots
-mochawesome-report
-reports
-package-lock.json
-.gitignore
