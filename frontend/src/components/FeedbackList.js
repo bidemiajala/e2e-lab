@@ -54,7 +54,7 @@ const FeedbackList = ({ refreshTrigger }) => {
     return (
       <div className="bg-white rounded-lg shadow-md p-8 border border-gray-200">
         <div className="flex items-center justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
           <span className="ml-3 text-gray-600">Loading feedback...</span>
         </div>
       </div>
@@ -73,7 +73,7 @@ const FeedbackList = ({ refreshTrigger }) => {
           <p className="text-red-700 mb-4">{error}</p>
           <button
             onClick={fetchFeedback}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+            className="bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
           >
             Try Again
           </button>
@@ -97,7 +97,7 @@ const FeedbackList = ({ refreshTrigger }) => {
               onClick={() => handleRatingFilter('all')}
               className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                 selectedRating === 'all'
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-gray-900 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
@@ -109,7 +109,7 @@ const FeedbackList = ({ refreshTrigger }) => {
                 onClick={() => handleRatingFilter(rating.toString())}
                 className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                   selectedRating === rating.toString()
-                    ? 'bg-blue-600 text-white'
+                    ? 'bg-gray-900 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >

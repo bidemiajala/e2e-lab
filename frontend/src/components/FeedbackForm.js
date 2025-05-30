@@ -96,7 +96,7 @@ const FeedbackForm = ({ onFeedbackSubmitted }) => {
             data-testid="input-name"
             value={formData.name}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900"
             placeholder="Enter your name"
           />
         </div>
@@ -125,7 +125,7 @@ const FeedbackForm = ({ onFeedbackSubmitted }) => {
             value={formData.message}
             onChange={handleInputChange}
             rows={4}
-            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 ${
               isCharacterLimitExceeded ? 'border-red-300' : 'border-gray-300'
             }`}
             placeholder="Share your thoughts..."
@@ -161,7 +161,7 @@ const FeedbackForm = ({ onFeedbackSubmitted }) => {
           className={`w-full py-2 px-4 rounded-md font-medium transition-colors ${
             isSubmitting || isCharacterLimitExceeded
               ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              : 'bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+              : 'bg-gray-900 text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2'
           }`}
         >
           {isSubmitting ? 'Submitting...' : 'Submit Feedback'}

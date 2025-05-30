@@ -23,8 +23,8 @@ const StarRating = ({ rating, onRatingChange = null, size = 'md' }) => {
         disabled={!isInteractive}
         className={`
           ${starSize}
-          ${filled ? 'text-yellow-400' : 'text-gray-300'}
-          ${isInteractive ? 'hover:text-yellow-400 cursor-pointer transition-colors' : 'cursor-default'}
+          ${filled ? 'text-gray-900' : 'text-gray-300'}
+          ${isInteractive ? 'hover:text-gray-900 cursor-pointer transition-colors' : 'cursor-default'}
           ${!isInteractive ? 'pointer-events-none' : ''}
         `}
       >
