@@ -1,14 +1,23 @@
 const express = require("express");
 const cors = require("cors");
+const cron = require("node-cron");
+const { getAllFeedback, addFeedback, clearFeedback } = require("./db");
+
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// In-memory data store
-let feedback = [];
-let idCounter = 1;
+// Schedule daily cleanup at midnight UTC
+cron.schedule('0 0 * * *', async () => {
+  try {
+    await clearFeedback();
+    console.log('Daily feedback cleanup completed at:', new Date().toISOString());
+  } catch (err) {
+    console.error('Error during daily cleanup:', err);
+  }
+});
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {
@@ -19,14 +28,21 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-// Get all feedback (sorted by newest first)
-app.get("/api/feedback", (req, res) => {
-  const sortedFeedback = feedback.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-  res.json({ success: true, data: sortedFeedback });
+// Get all feedback
+app.get("/api/feedback", async (req, res) => {
+  try {
+    const feedback = await getAllFeedback();
+    res.json({ success: true, data: feedback });
+  } catch (err) {
+    res.status(500).json({ 
+      success: false, 
+      message: "Failed to fetch feedback" 
+    });
+  }
 });
 
 // Submit new feedback
-app.post("/api/feedback", (req, res) => {
+app.post("/api/feedback", async (req, res) => {
   const { name, rating, message } = req.body;
 
   // Validation
@@ -51,22 +67,44 @@ app.post("/api/feedback", (req, res) => {
     });
   }
 
-  // Create new feedback
-  const newFeedback = {
-    id: idCounter++,
-    name: name.trim(),
-    rating: parseInt(rating),
-    message: message.trim(),
-    timestamp: new Date().toISOString()
-  };
+  try {
+    const newFeedback = await addFeedback(name, rating, message);
+    res.status(201).json({
+      success: true,
+      message: "Feedback submitted successfully",
+      data: newFeedback
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to submit feedback"
+    });
+  }
+});
 
-  feedback.push(newFeedback);
+// Manual cleanup endpoint (protected by API key)
+app.post("/api/admin/cleanup", async (req, res) => {
+  const apiKey = req.headers['x-api-key'];
+  
+  if (apiKey !== process.env.ADMIN_API_KEY) {
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorized"
+    });
+  }
 
-  res.status(201).json({
-    success: true,
-    message: "Feedback submitted successfully",
-    data: newFeedback
-  });
+  try {
+    await clearFeedback();
+    res.json({
+      success: true,
+      message: "Feedback data cleared successfully"
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to clear feedback data"
+    });
+  }
 });
 
 const PORT = process.env.PORT || 3001;
