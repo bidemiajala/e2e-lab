@@ -82,11 +82,6 @@ jobs:
     - name: Install frontend dependencies
       working-directory: ./frontend
       run: npm install
-
-    - name: Install system dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libasound2 libx264-163 libffi7 libgbm1 libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libglu1-mesa libpango-1.0-0 libcairo2
       
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps chromium
