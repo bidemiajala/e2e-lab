@@ -5,21 +5,25 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    'eslint:recommended',
-    'plugin:cypress/recommended',
-    'plugin:playwright/recommended',
+    'eslint:recommended'
   ],
   overrides: [
     {
-      files: ['tests/cypress/**/*.js', 'cypress/**/*.js'],
+      files: ['cypress/**/*.js', 'cypress.config.js'],
       extends: ['plugin:cypress/recommended'],
+      env: {
+        'cypress/globals': true
+      }
     },
     {
-      files: ['tests/playwright/**/*.ts'],
+      files: ['playwright/**/*.ts', 'playwright.config.ts'],
       extends: ['plugin:playwright/recommended'],
       parser: '@typescript-eslint/parser',
       plugins: ['@typescript-eslint'],
-    },
+      env: {
+        'playwright/globals': true
+      }
+    }
   ],
   parserOptions: {
     ecmaVersion: 'latest',
@@ -29,4 +33,5 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
   },
+  ignorePatterns: ['backend/**/*', 'frontend/**/*']
 }; 

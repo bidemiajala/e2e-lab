@@ -7,27 +7,42 @@ on:
     branches: [ master ]
 
 jobs:
-  backend-test:
-    runs-on: ubuntu-latest
+  dependency-review:
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'pull_request'
+    continue-on-error: true
+    
+    steps:
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v4
 
-    services:
-      mongodb:
-        image: mongo:4.4
-        ports:
-          - 27017:27017
+      - name: 'Dependency Review'
+        uses: actions/dependency-review-action@v3
+        continue-on-error: true
+        with:
+          fail-on-severity: critical
+          deny-licenses: ''
+          allow-licenses: 'MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC'
+          fail-on-scopes: 'runtime, development'
+
+  backend-test:
+    runs-on: ubuntu-22.04
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [22.x]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+
+    - name: Install root dependencies
+      run: npm install
 
     - name: Install backend dependencies
       working-directory: ./backend
@@ -42,72 +57,61 @@ jobs:
       run: npm test
       env:
         NODE_ENV: test
-        MONGODB_URI: mongodb://localhost:27017/test
         PORT: 5001
 
   frontend-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: backend-test
-
-    services:
-      mongodb:
-        image: mongo:4.4
-        ports:
-          - 27017:27017
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [22.x]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
 
-    - name: Install all dependencies
-      run: npm run install:all
-      
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+    - name: Install root dependencies
+      run: npm install
 
+    - name: Install frontend dependencies
+      working-directory: ./frontend
+      run: npm install
+
+    - name: Install Playwright and dependencies
+      run: npx playwright install --with-deps
+      
     - name: Run frontend linting
       working-directory: ./frontend
       run: npm run lint
 
-    - name: Start backend server
-      working-directory: ./backend
-      run: npm start &
-      env:
-        NODE_ENV: test
-        MONGODB_URI: mongodb://localhost:27017/test
-        PORT: 5001
-
-    - name: Wait for backend to start
-      run: |
-        while ! nc -z localhost 5001; do
-          sleep 1
-        done
-
     - name: Run Cypress tests
       run: npm run test:cypress
-      
+      env:
+        NODE_ENV: test
+        CI: true
+
     - name: Run Playwright tests
       run: npm run test:playwright
+      env:
+        NODE_ENV: test
+        CI: true
 
     - name: Upload Cypress test results
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: cypress-results
         path: cypress/videos/
 
     - name: Upload Playwright test results
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: playwright-results
         path: playwright-report/
@@ -115,10 +119,10 @@ jobs:
   deploy:
     needs: [backend-test, frontend-test]
     if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     # Add your deployment steps here
     # Example:

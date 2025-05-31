@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   env: {
     node: true,
     es2021: true,
@@ -30,8 +31,7 @@ module.exports = {
         jest: true
       },
       rules: {
-        'node/no-unpublished-require': 'off',
-        'playwright/no-standalone-expect': 'off'
+        'node/no-unpublished-require': 'off'
       }
     }
   ]
