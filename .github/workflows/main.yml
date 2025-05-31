@@ -8,7 +8,7 @@ on:
 
 jobs:
   dependency-review:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     if: github.event_name == 'pull_request'
     continue-on-error: true
     
@@ -26,7 +26,7 @@ jobs:
           fail-on-scopes: 'runtime, development'
 
   backend-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     strategy:
       matrix:
@@ -60,7 +60,7 @@ jobs:
         PORT: 5001
 
   frontend-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: backend-test
 
     strategy:
@@ -117,7 +117,7 @@ jobs:
   deploy:
     needs: [backend-test, frontend-test]
     if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     
     steps:
     - uses: actions/checkout@v4
