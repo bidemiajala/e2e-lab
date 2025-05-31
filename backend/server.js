@@ -6,18 +6,12 @@ const { getAllFeedback, addFeedback, clearFeedback } = require("./db");
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type']
+}));
 app.use(express.json());
-
-// Schedule daily cleanup at midnight UTC
-cron.schedule('0 0 * * *', async () => {
-  try {
-    await clearFeedback();
-    console.log('Daily feedback cleanup completed at:', new Date().toISOString());
-  } catch (err) {
-    console.error('Error during daily cleanup:', err);
-  }
-});
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {
@@ -82,14 +76,12 @@ app.post("/api/feedback", async (req, res) => {
   }
 });
 
-// Manual cleanup endpoint (protected by API key)
-app.post("/api/admin/cleanup", async (req, res) => {
-  const apiKey = req.headers['x-api-key'];
-  
-  if (apiKey !== process.env.ADMIN_API_KEY) {
-    return res.status(401).json({
+// Test reset endpoint
+app.post("/api/test/reset", async (req, res) => {
+  if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'development') {
+    return res.status(403).json({
       success: false,
-      message: "Unauthorized"
+      message: "This endpoint is only available in test environment"
     });
   }
 
@@ -97,17 +89,17 @@ app.post("/api/admin/cleanup", async (req, res) => {
     await clearFeedback();
     res.json({
       success: true,
-      message: "Feedback data cleared successfully"
+      message: "Test database reset successful"
     });
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: "Failed to clear feedback data"
+      message: "Failed to reset test database"
     });
   }
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 5001;
 
 if (require.main === module) {
   app.listen(PORT, () => {

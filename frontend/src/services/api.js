@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 
 class ApiService {
   async request(endpoint, options = {}) {
@@ -11,15 +11,21 @@ class ApiService {
     };
 
     try {
+      console.log('Making request to:', url); // Debug log
       const response = await fetch(url, config);
       const data = await response.json();
 
       if (!response.ok) {
+        console.error('API Error:', data); // Debug log
         throw new Error(data.message || 'Something went wrong');
       }
 
       return data;
     } catch (error) {
+      console.error('Request failed:', error); // Debug log
+      if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
+        throw new Error('Unable to connect to the server. Please check if the server is running.');
+      }
       throw new Error(error.message || 'Network error');
     }
   }

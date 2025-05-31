@@ -1,0 +1,38 @@
+{
+  "name": "e2e-lab",
+  "version": "1.0.0",
+  "description": "A modern feedback application built with React and Express.js that allows users to submit and view feedback with star ratings.",
+  "homepage": "https://github.com/bidemiajala/e2e-lab#readme",
+  "license": "ISC",
+  "author": "Demi Ajala",
+  "scripts": {
+    "test:cypress": "start-server-and-test start:all http://localhost:3000 'cypress run'",
+    "test:cypress:open": "start-server-and-test start:all http://localhost:3000 'cypress open'",
+    "test:playwright": "playwright test",
+    "test:playwright:ui": "playwright test --ui",
+    "test:all": "npm run test:cypress && npm run test:playwright",
+    "start:all": "concurrently \"cd backend && npm start\" \"cd frontend && npm start\"",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky install",
+    "seed:db": "cd backend && npm run seed:db"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.42.1",
+    "@types/node": "^20.11.24",
+    "concurrently": "^8.2.2",
+    "cypress": "^14.4.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-cypress": "^2.15.1",
+    "eslint-plugin-playwright": "^1.5.2",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "start-server-and-test": "^2.0.3"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ]
+  }
+}
