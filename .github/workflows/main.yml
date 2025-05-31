@@ -89,6 +89,9 @@ jobs:
     - name: Run frontend linting
       working-directory: ./frontend
       run: npm run lint
+    
+    - name: List frontend files
+      run: ls -R ./frontend
 
     - name: Run Cypress tests
       run: npm run test:cypress
