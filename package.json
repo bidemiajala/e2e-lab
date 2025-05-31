@@ -24,7 +24,7 @@
     "start": "cd frontend && npm start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "prepare": "husky install",
+    "prepare": "[ \"$VERCEL\" = \"1\" ] && exit 0 || husky install",
     "seed:db": "cd backend && npm run seed:db"
   },
   "devDependencies": {
