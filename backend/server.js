@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
-const cron = require("node-cron");
-const { getAllFeedback, addFeedback, clearFeedback } = require("./db");
+// const cron = require("node-cron");  // Commented out until needed
+const { getAllFeedback, addFeedback, clearFeedback } = require("./db.js");
 
 const app = express();
 
