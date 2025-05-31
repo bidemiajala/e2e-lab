@@ -100,11 +100,30 @@ app.post("/api/test/reset", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5001;
+let server;
 
 if (require.main === module) {
-  app.listen(PORT, () => {
+  server = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
+
+  // Handle shutdown gracefully
+  const shutdown = () => {
+    console.log('Received kill signal, shutting down gracefully');
+    server.close(() => {
+      console.log('Closed out remaining connections');
+      process.exit(0);
+    });
+
+    // Force close after 10s
+    setTimeout(() => {
+      console.error('Could not close connections in time, forcefully shutting down');
+      process.exit(1);
+    }, 10000);
+  };
+
+  process.on('SIGTERM', shutdown);
+  process.on('SIGINT', shutdown);
 }
 
-module.exports = app;
+module.exports = { app, server };
