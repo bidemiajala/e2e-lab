@@ -65,7 +65,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [22.x]
 
     steps:
     - uses: actions/checkout@v4
@@ -89,22 +89,18 @@ jobs:
     - name: Run frontend linting
       working-directory: ./frontend
       run: npm run lint
-    
-    - name: Kill process on port 5001
-      run: |
-        if lsof -i :5001; then
-          kill -9 $(lsof -t -i :5001)
-        fi
 
     - name: Run Cypress tests
       run: npm run test:cypress
       env:
         NODE_ENV: test
-        PORT: 5001
         CI: true
-      
+
     - name: Run Playwright tests
       run: npm run test:playwright
+      env:
+        NODE_ENV: test
+        CI: true
 
     - name: Upload Cypress test results
       if: always()
