@@ -7,19 +7,28 @@
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+// Custom command for API requests
+Cypress.Commands.add('api', {
+  prevSubject: false
+}, (method, path, body = null) => {
+  const options = {
+    method,
+    url: `http://localhost:5001${path}`, // Using direct URL instead of env variable
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    failOnStatusCode: false
+  };
+
+  if (body) {
+    options.body = body;
+  }
+
+  return cy.request(options);
+});
+
+// Custom command for finding elements by data-testid
+Cypress.Commands.add('findByDataTestId', (testId) => {
+  return cy.get(`[data-testid="${testId}"]`);
+}); 
