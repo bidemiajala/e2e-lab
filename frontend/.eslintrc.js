@@ -51,6 +51,7 @@ module.exports = {
   },
   overrides: [
     {
+      files: ['cypress/**/*.js', 'cypress/**/*.jsx', '**/*.cy.js'],
       rules: {
         'no-undef': 'off'
       }
