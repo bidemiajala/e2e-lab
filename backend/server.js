@@ -99,13 +99,15 @@ app.post("/api/test/reset", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5001;
-let server;
+function createServer() {
+  const PORT = process.env.PORT || 5001;
+  const server = app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 
-function shutdownGracefully(signal) {
-  return new Promise((resolve) => {
-    console.log(`Received ${signal}, shutting down gracefully`);
-    if (server) {
+  function shutdownGracefully(signal) {
+    return new Promise((resolve) => {
+      console.log(`Received ${signal}, shutting down gracefully`);
       server.close(() => {
         console.log('Closed out remaining connections');
         resolve();
@@ -116,16 +118,8 @@ function shutdownGracefully(signal) {
         console.error('Could not close connections in time, forcefully shutting down');
         resolve();
       }, 10000);
-    } else {
-      resolve();
-    }
-  });
-}
-
-if (require.main === module) {
-  server = app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
+    });
+  }
 
   // Handle shutdown signals
   ['SIGTERM', 'SIGINT'].forEach((signal) => {
@@ -135,6 +129,12 @@ if (require.main === module) {
       process.removeAllListeners();
     });
   });
+
+  return server;
 }
 
-module.exports = { app, server };
+if (require.main === module) {
+  createServer();
+}
+
+module.exports = app;
