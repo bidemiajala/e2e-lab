@@ -1,6 +1,11 @@
 {
   "name": "e2e-lab",
   "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "description": "A modern feedback application built with React and Express.js that allows users to submit and view feedback with star ratings.",
   "homepage": "https://github.com/bidemiajala/e2e-lab#readme",
   "license": "ISC",
@@ -12,7 +17,11 @@
     "test:playwright:ui": "playwright test --ui",
     "test:all": "npm run test:cypress && npm run test:playwright",
     "start:all": "concurrently \"cd backend && npm start\" \"cd frontend && npm start\"",
-    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "install:all": "npm install && npm run install:frontend && npm run install:backend",
+    "install:frontend": "cd frontend && npm install",
+    "install:backend": "cd backend && npm install",
+    "build": "cd frontend && npm run build",
+    "start": "cd frontend && npm start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prepare": "husky install",
