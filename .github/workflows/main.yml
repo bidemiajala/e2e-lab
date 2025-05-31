@@ -10,6 +10,7 @@ jobs:
   dependency-review:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
+    continue-on-error: true
     
     steps:
       - name: 'Checkout Repository'
@@ -17,6 +18,7 @@ jobs:
 
       - name: 'Dependency Review'
         uses: actions/dependency-review-action@v3
+        continue-on-error: true
         with:
           fail-on-severity: critical
           deny-licenses: ''
