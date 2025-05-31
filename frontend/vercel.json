@@ -1,8 +1,15 @@
 {
   "version": 2,
-  "framework": "create-react-app",
-  "buildCommand": "npm run build",
-  "outputDirectory": "build",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "buildCommand": "./build.sh",
+        "distDir": "build"
+      }
+    }
+  ],
   "routes": [
     {
       "handle": "filesystem"
