@@ -39,12 +39,14 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install root dependencies
+      run: npm install
 
     - name: Install backend dependencies
       working-directory: ./backend
-      run: |
-        npm install
-        npm ci
+      run: npm install
 
     - name: Run backend linting
       working-directory: ./backend
@@ -72,12 +74,14 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install root dependencies
+      run: npm install
 
     - name: Install frontend dependencies
       working-directory: ./frontend
-      run: |
-        npm install
-        npm ci
+      run: npm install
       
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
@@ -86,23 +90,12 @@ jobs:
       working-directory: ./frontend
       run: npm run lint
 
-    - name: Start backend server
-      working-directory: ./backend
-      run: |
-        npm install
-        npm start &
+    - name: Run Cypress tests
+      run: npm run test:cypress
       env:
         NODE_ENV: test
         PORT: 5001
-
-    - name: Wait for backend to start
-      run: |
-        while ! nc -z localhost 5001; do
-          sleep 1
-        done
-
-    - name: Run Cypress tests
-      run: npm run test:cypress
+        CI: true
       
     - name: Run Playwright tests
       run: npm run test:playwright
