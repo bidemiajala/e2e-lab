@@ -41,5 +41,14 @@
     "ajv-keywords": "5.1.0",
     "schema-utils": "4.3.2",
     "webpack-dev-server": "5.2.1"
+  },
+  "resolutions": {
+    "body-parser": "^1.20.2",
+    "nth-check": "^2.1.1",
+    "path-to-regexp": "^6.2.1",
+    "postcss": "^8.4.31",
+    "@svgr/webpack": "^8.1.0",
+    "svgo": "^3.2.0",
+    "resolve-url-loader": "^5.0.0"
   }
 }
