@@ -83,11 +83,10 @@ jobs:
       working-directory: ./frontend
       run: npm install
 
-    - name: Setup Playwright
-      uses: microsoft/playwright-github-action@v1
-      
-    - name: Install Playwright browsers
-      run: npx playwright install
+    - name: Install Playwright and dependencies
+      run: |
+        npx playwright install --with-deps
+        npx playwright install
       
     - name: Run frontend linting
       working-directory: ./frontend
