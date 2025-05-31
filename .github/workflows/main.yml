@@ -96,9 +96,6 @@ jobs:
           kill -9 $(lsof -t -i :5001)
         fi
 
-    - name: List frontend files
-      run: ls -R ./frontend
-
     - name: Run Cypress tests
       run: npm run test:cypress
       env:
