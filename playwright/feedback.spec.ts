@@ -47,7 +47,7 @@ test.describe('Feedback Form', () => {
     await page.getByTestId('input-name').clear();
     await page.getByTestId('input-name').fill('Demi Ajala');
     
-    await expect(page.getByTestId('star-rating-4')).toBeVisible();
+    await expect(page.getByTestId('star-rating-5')).toBeVisible();
     await page.getByTestId('star-rating-4').click();
     
     const feedbackMessage = 'This is a test feedback message!';
