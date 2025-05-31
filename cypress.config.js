@@ -1,7 +1,18 @@
 const { defineConfig } = require("cypress");
+const webpackConfig = require('./webpack.config');
 
 module.exports = defineConfig({
   projectId: 'uupokg',
+  component: {
+    devServer: {
+      framework: 'react',
+      bundler: 'webpack',
+      webpackConfig,
+    },
+    indexHtmlFile: 'cypress/support/component-index.html',
+    supportFile: 'cypress/support/component.js',
+    specPattern: 'cypress/component/**/*.cy.{js,jsx,ts,tsx}',
+  },
   e2e: {
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: 'cypress/support/e2e.js',
