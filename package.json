@@ -13,6 +13,8 @@
   "scripts": {
     "pretest:cypress": "kill-port 3000 5001 || true",
     "test:cypress": "start-server-and-test 'cd backend && npm start' http://localhost:5001/api/health 'cd frontend && npm start' http://localhost:3000 'cypress run'",
+    "test:cypress:component": "cypress run --component",
+    "test:cypress:component:open": "cypress open --component",
     "start:servers": "concurrently -k \"npm:start:backend\" \"npm:start:frontend\"",
     "start:frontend": "cd frontend && npm start",
     "start:backend": "cd backend && npm start",
@@ -30,15 +32,29 @@
     "seed:db": "cd backend && npm run seed:db"
   },
   "devDependencies": {
+    "@babel/core": "7.27.4",
+    "@babel/preset-env": "7.27.2",
+    "@babel/preset-react": "7.27.1",
+    "@cypress/react": "^8.0.0",
+    "@cypress/webpack-dev-server": "^3.7.1",
     "@playwright/test": "1.42.1",
+    "@tailwindcss/postcss7-compat": "2.2.17",
     "@types/node": "20.11.24",
+    "autoprefixer": "10.4.21",
+    "babel-loader": "10.0.0",
     "concurrently": "8.2.2",
+    "css-loader": "7.1.2",
     "cypress": "14.4.0",
     "eslint": "8.57.0",
     "eslint-plugin-cypress": "2.15.1",
     "eslint-plugin-playwright": "1.5.2",
     "kill-port": "2.0.1",
-    "start-server-and-test": "2.0.3"
+    "postcss-loader": "8.1.1",
+    "start-server-and-test": "2.0.3",
+    "style-loader": "4.0.0",
+    "tailwindcss": "4.1.8",
+    "webpack": "5.99.9",
+    "webpack-cli": "6.0.1"
   },
   "dependencies": {
     "ajv": "8.17.1",

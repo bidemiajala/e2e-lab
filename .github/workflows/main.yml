@@ -90,7 +90,13 @@ jobs:
       working-directory: ./frontend
       run: npm run lint
 
-    - name: Run Cypress tests
+    - name: Run Cypress component tests
+      run: npm run test:cypress:component
+      env:
+        NODE_ENV: test
+        CI: true
+
+    - name: Run Cypress E2E tests
       run: npm run test:cypress
       env:
         NODE_ENV: test
@@ -107,7 +113,9 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: cypress-results
-        path: cypress/videos/
+        path: |
+          cypress/videos/
+          cypress/screenshots/
 
     - name: Upload Playwright test results
       if: always()
