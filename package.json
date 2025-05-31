@@ -24,7 +24,7 @@
     "install:all": "npm install && npm run install:frontend && npm run install:backend",
     "install:frontend": "cd frontend && npm install",
     "install:backend": "cd backend && npm install",
-    "build": "npm run build",
+    "build": "cd frontend && npm run build",
     "start": "cd frontend && npm start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
