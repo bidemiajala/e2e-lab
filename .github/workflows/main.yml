@@ -84,9 +84,7 @@ jobs:
       run: npm install
 
     - name: Install Playwright and dependencies
-      run: |
-        npx playwright install --with-deps
-        npx playwright install
+      run: npx playwright install --with-deps
       
     - name: Run frontend linting
       working-directory: ./frontend
