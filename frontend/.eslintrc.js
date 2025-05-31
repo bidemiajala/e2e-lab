@@ -3,13 +3,8 @@ module.exports = {
   extends: [
     'react-app',
     'react-app/jest',
-    'plugin:cypress/recommended'
-  ],
-  plugins: [
-    'cypress'
   ],
   env: {
-    'cypress/globals': true,
     'browser': true,
     'es2021': true,
     'node': true
@@ -56,10 +51,6 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['cypress/**/*.js', 'cypress/**/*.jsx', '**/*.cy.js'],
-      env: {
-        'cypress/globals': true
-      },
       rules: {
         'no-undef': 'off'
       }
