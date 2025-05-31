@@ -90,6 +90,12 @@ jobs:
       working-directory: ./frontend
       run: npm run lint
     
+    - name: Kill process on port 5001
+      run: |
+        if lsof -i :5001; then
+          kill -9 $(lsof -t -i :5001)
+        fi
+
     - name: List frontend files
       run: ls -R ./frontend
 
