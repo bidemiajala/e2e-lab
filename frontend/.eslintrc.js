@@ -1,14 +1,19 @@
 module.exports = {
   root: true,
-  env: {
-    browser: true,
-    es2021: true,
-    jest: true,
-  },
   extends: [
     'react-app',
-    'react-app/jest'
+    'react-app/jest',
+    'plugin:cypress/recommended'
   ],
+  plugins: [
+    'cypress'
+  ],
+  env: {
+    'cypress/globals': true,
+    'browser': true,
+    'es2021': true,
+    'node': true
+  },
   parserOptions: {
     ecmaFeatures: {
       jsx: true
@@ -16,9 +21,6 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module'
   },
-  plugins: [
-    'react'
-  ],
   rules: {
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
@@ -51,5 +53,16 @@ module.exports = {
   globals: {
     'MSApp': 'readonly',
     '__REACT_DEVTOOLS_GLOBAL_HOOK__': 'readonly'
-  }
+  },
+  overrides: [
+    {
+      files: ['cypress/**/*.js', 'cypress/**/*.jsx', '**/*.cy.js'],
+      env: {
+        'cypress/globals': true
+      },
+      rules: {
+        'no-undef': 'off'
+      }
+    }
+  ]
 }; 

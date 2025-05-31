@@ -5,17 +5,34 @@
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "zeroConfig": true
+        "distDir": "build"
       }
     }
   ],
   "routes": [
     {
-      "handle": "filesystem"
+      "src": "/static/(.*)",
+      "dest": "/frontend/build/static/$1"
     },
     {
-      "src": "/.*",
-      "dest": "/index.html"
+      "src": "/favicon.ico",
+      "dest": "/frontend/build/favicon.ico"
+    },
+    {
+      "src": "/manifest.json",
+      "dest": "/frontend/build/manifest.json"
+    },
+    {
+      "src": "/logo192.png",
+      "dest": "/frontend/build/logo192.png"
+    },
+    {
+      "src": "/logo512.png",
+      "dest": "/frontend/build/logo512.png"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/build/index.html"
     }
   ]
 } 
