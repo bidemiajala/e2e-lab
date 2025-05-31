@@ -24,8 +24,9 @@ The playground has two main parts:
 - **Frontend**: React (Create React App)
 - **Backend**: Express.js
 - **Testing Tools**:
-  - Cypress for E2E testing
+  - Cypress for E2E and Component testing
   - Playwright for cross-browser testing
+  - Component testing with Cypress for React components
   - GitHub Actions for CI/CD
   - Vercel for frontend deployment
   - Render for backend deployment
@@ -50,10 +51,16 @@ npm run start:servers
 
 ## Running Tests
 
-We've got a few ways to run tests:
+We've got several ways to run tests:
 
 ```bash
-# Run Cypress tests
+# Run Cypress component tests
+npm run test:cypress:component
+
+# Open Cypress Component Testing UI
+npm run test:cypress:component:open
+
+# Run Cypress E2E tests
 npm run test:cypress
 
 # Open Cypress Test Runner
@@ -69,13 +76,38 @@ npm run test:playwright:ui
 npm run test:all
 ```
 
+### Component Tests
+
+Our React components are tested using Cypress Component Testing. These tests:
+- Run in isolation from the full app
+- Test component behavior and interactions
+- Verify UI states and user interactions
+- Run faster than E2E tests
+- Help catch issues early in development
+
+Key component test files:
+```
+e2e-lab/
+├── cypress/
+│   ├── component/           # Component test files
+│   │   └── *.cy.jsx         # Individual component tests
+│   └── support/
+│       ├── component.js     # Component test configuration
+│       └── component.css    # Component test styles
+```
+
 ## CI/CD Pipeline
 
 The project uses GitHub Actions for continuous integration, running:
 - Dependency security checks
 - Backend tests
-- Frontend tests (Cypress & Playwright)
+- Frontend tests:
+  1. Component tests (Cypress)
+  2. E2E tests (Cypress)
+  3. Cross-browser tests (Playwright)
 - Automated deployments to Vercel (frontend) and Render (backend)
+
+Component tests must pass before E2E tests run and before any deployment can proceed.
 
 ## Live Demo
 
@@ -99,8 +131,11 @@ FRONTEND_URL=your_frontend_url
 e2e-lab/
 ├── frontend/         # React frontend
 │   ├── src/          # Source code
-│   ├── cypress/      # Cypress tests
 │   └── tests/        # Playwright tests
+│
+├── cypress/          # Cypress tests
+│   ├── e2e/          # End-to-end tests
+│   └── component/    # Component tests
 │
 └── backend/          # Express backend
     ├── server.js     # Main server file
