@@ -6,10 +6,30 @@ const { getAllFeedback, addFeedback, clearFeedback } = require("./db.js");
 const app = express();
 
 // Middleware
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'https://e2e-lab.vercel.app',
+  'https://e2e-lab-git-master.bidemiajala.vercel.app', // Preview deployments
+  'https://e2e-lab-bidemiajala.vercel.app', // Production deployment
+  process.env.FRONTEND_URL, // For custom domains
+].filter(Boolean); // Remove any undefined values
+
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Check if the origin is allowed
+    if (allowedOrigins.indexOf(origin) === -1) {
+      console.log('Blocked origin:', origin); // Debug log
+      return callback(null, false);
+    }
+    return callback(null, true);
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type']
+  allowedHeaders: ['Content-Type'],
+  credentials: true // Allow credentials
 }));
 app.use(express.json());
 
