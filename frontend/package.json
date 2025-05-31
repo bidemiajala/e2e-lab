@@ -62,7 +62,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "postcss": "^8.4.32",
     "start-server-and-test": "^2.0.3",
-    "tailwindcss": "^3.4.0"
+    "tailwindcss": "^4.1.8"
   },
   "engines": {
     "node": ">=18.0.0"
