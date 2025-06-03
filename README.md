@@ -1,3 +1,4 @@
+[![Build and Test](https://github.com/bidemiajala/e2e-lab/actions/workflows/main.yml/badge.svg)](https://github.com/bidemiajala/e2e-lab/actions/workflows/main.yml)
 # E2E Testing Playground
 
 Hey there! 👋 This is my testing playground where I experiment with different QA automation approaches. The main app is a feedback collection system, but the real fun is in how we test it!
